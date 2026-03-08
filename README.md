@@ -9,7 +9,7 @@
 <br>
 
 [![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-Tỏ_Tình_Nè-ff4d6d?style=for-the-badge&labelColor=1a1a2e)](https://authkenr6.dpdns.org/)
-[![GitHub](https://img.shields.io/badge/GitHub-chokiproai-181717?style=for-the-badge&logo=github&labelColor=1a1a2e)](https://github.com/tranhuyk12haha/guiyeuthuong)
+[![GitHub](https://img.shields.io/badge/GitHub-tranhuyk12haha-181717?style=for-the-badge&logo=github&labelColor=1a1a2e)](https://github.com/tranhuyk12haha/guiyeuthuong)
 
 ---
 
