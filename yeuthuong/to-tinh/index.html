@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Gửi cậu người thương</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Trang web tỏ tình lãng mạn - Gửi lời yêu thương đến người ấy">
+    <meta name="keywords" content="tỏ tình, yêu thương, romantic, love confession">
+    <meta name="author" content="Ngọc Tuấn">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Gửi cậu người thương ❤️">
+    <meta property="og:description" content="Ai đó muốn gửi lời yêu thương đến bạn...">
+    <meta property="og:image" content="img/og-image.png">
+
+    <!-- PWA Support -->
+    <link rel="manifest" href="../../manifest.json">
+    <meta name="theme-color" content="#ff4d6d">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="img/icon-192.png">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>❤️</text></svg>">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;800&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loader">
+            <div class="heart-loader">❤️</div>
+            <p>Đang tải...</p>
+        </div>
+    </div>
+
+    <!-- Cinematic Entrance Overlay -->
+    <div id="entrance-overlay">
+        <div class="gift-container">
+            <div class="gift-box">
+                <div class="click-area"></div>
+                <div class="lid">
+                    <div class="lid-shadow"></div>
+                    <div class="ribbon-v"></div>
+                    <div class="ribbon-h"></div>
+                </div>
+                <div class="box-body">
+                    <div class="box-shadow"></div>
+                    <div class="ribbon-body"></div>
+                </div>
+            </div>
+            <p class="hint-text">Chạm để mở quà 🎁</p>
+        </div>
+    </div>
+
+    <!-- Ambient Background Shapes -->
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+    <div class="shape shape-3"></div>
+    <div class="shape shape-4"></div>
+
+    <!-- Floating Hearts Container -->
+    <div class="hearts-container" id="hearts-container"></div>
+
+    <!-- Theme sẽ tự động theo giới tính (Pink cho nữ, Blue cho nam) -->
+
+    <!-- Setup Modal (Creator Mode) -->
+    <div id="setup-modal" class="modal">
+        <div class="card modal-content">
+            <h1><i class="fas fa-heart"></i> Tạo lời tỏ tình</h1>
+            <p class="subtitle">Nhập tên người ấy để tạo trang web riêng nhé!</p>
+
+            <div class="form-group">
+                <label><i class="fas fa-user"></i> Gửi cho:</label>
+                <select id="gender-select" class="form-control">
+                    <option value="f">💝 Bạn Nữ</option>
+                    <option value="m">💙 Bạn Nam</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label><i class="fas fa-signature"></i> Tên người ấy:</label>
+                <input type="text" id="lover-name" class="form-control" placeholder="Ví dụ: Bé Mèo, Crush..."
+                    autocomplete="off">
+            </div>
+
+            <div class="form-group">
+                <label><i class="fas fa-pen-fancy"></i> Lời nhắn nhủ:</label>
+                <textarea id="custom-msg" class="form-control" rows="3"
+                    placeholder="Mặc định: Tớ thích cậu từ lâu lắm rồi..."></textarea>
+            </div>
+
+            <button class="btn btn-yes btn-large" id="create-link-btn">
+                <i class="fas fa-magic"></i> Tạo Link
+            </button>
+
+            <div id="result-area" class="hidden">
+                <p class="result-label">Link của bạn nè:</p>
+                <div class="link-box">
+                    <input type="text" id="generated-link" readonly>
+                    <button id="copy-btn"><i class="fas fa-copy"></i></button>
+                </div>
+
+                <!-- QR Code Section -->
+                <div id="qr-code-container" class="hidden">
+                    <div id="qr-code"></div>
+                    <button class="btn btn-sm" id="download-qr-btn">
+                        <i class="fas fa-download"></i> Tải QR Code
+                    </button>
+                </div>
+
+
+
+                <!-- Share Buttons -->
+                <div class="action-buttons">
+                    <button class="action-btn action-fb" id="action-fb" title="Chia sẻ Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </button>
+                    <button class="action-btn action-zalo" id="action-zalo" title="Chia sẻ Zalo">
+                        <span class="zalo-icon">Z</span>
+                    </button>
+                    <button class="action-btn action-messenger" id="action-messenger" title="Gửi Messenger">
+                        <i class="fab fa-facebook-messenger"></i>
+                    </button>
+                    <button class="action-btn action-native" id="action-native" title="Chia sẻ khác">
+                        <i class="fas fa-share-alt"></i>
+                    </button>
+                </div>
+
+                <button class="btn btn-yes" id="go-to-link-btn">
+                    <i class="fas fa-eye"></i> Xem thử ngay
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Background Music -->
+    <audio id="bg-music" loop>
+        <source src="bg-music.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- Music Toggle Button -->
+    <button id="music-toggle" class="music-btn" title="Bật/Tắt nhạc">
+        <i class="fas fa-music"></i>
+    </button>
+
+    <!-- Main Confession Content -->
+    <div class="container hidden" id="main-content">
+        <div class="card">
+            <div id="ask-section">
+                <div class="gif-container">
+                    <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExM2Q0ZGIzN2E5ZGIzN2E5ZGIzN2E5ZGIzN2E5ZGIzN2E5JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1z/cLS1cfxvGOPVpf9g3y/giphy.gif"
+                        alt="Cute animated bear" id="main-image" loading="lazy">
+                </div>
+                <!-- Dynamic Name will be inserted here -->
+                <h1 id="greeting">Gửi cậu người thương</h1>
+                <p class="subtitle typing-cursor" id="question-text"></p>
+
+                <div class="btn-group">
+                    <button class="btn btn-yes" id="btn-yes">
+                        <i class="fas fa-heart"></i> Đồng ý
+                    </button>
+                    <button class="btn btn-no" id="btn-no">
+                        <i class="fas fa-times"></i> Không nha
+                    </button>
+                </div>
+            </div>
+
+            <div id="success-section" class="success-message">
+                <div class="gif-container">
+                    <img src="https://media0.giphy.com/media/T86i6yDyOYz7J6dPhf/giphy.gif?cid=ecf05e478206d4o856187788106295325016201004128522&rid=giphy.gif&ct=s"
+                        alt="Celebration" id="success-image" loading="lazy">
+                </div>
+                <h1 id="success-title">Yeahhh! Tớ biết mà! ❤️</h1>
+                <p class="subtitle">Hôm nay là ngày đẹp nhất đời tớ. Yêu cậu nhiều lắm!</p>
+
+
+                <!-- Swipeable Wishes Cards -->
+                <div class="wishes-container">
+                    <div id="card-stack" class="card-stack"></div>
+                    <p class="instruction">Vuốt để xem tiếp 👉</p>
+                </div>
+
+                <!-- Celestial Heart Link to Dem Ngay -->
+                <a href="../dem-ngay/index.html" class="celestial-heart-link" id="go-to-dem-ngay" style="margin-top: 25px; text-decoration: none;">
+                    <span class="celestial-heart-icon">💖</span>
+                    <div class="celestial-heart-text">
+                        <span class="celestial-heart-title">Bắt Đầu Đếm Ngày Yêu</span>
+                        <span class="celestial-heart-sub">Lưu giữ từng khoảnh khắc đáng nhớ 👉</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Credits -->
+    <div class="footer">
+        <div class="footer-content">
+            <span>Made with ❤️ by</span>
+            <a href="https://www.facebook.com/share/1AkHwaJZTu/" target="_blank">Ngọc Tuấn</a>
+            <span class="divider">|</span>
+            <a href="https://github.com/chokiproai/totinhne" target="_blank">
+                <i class="fab fa-github"></i> Source
+            </a>
+        </div>
+    </div>
+
+    <!-- Canvas Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="script.js"></script>
+
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js').catch(() => { });
+            });
+        }
+    </script>
+    <script src="/update.js"></script>
+</body>
+
+</html>

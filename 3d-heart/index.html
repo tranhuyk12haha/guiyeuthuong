@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>💖 Trái Tim Của Em</title>
+  <meta name="description" content="Trái tim 3D lãng mạn — Gửi đến người thương yêu" />
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Three.js via CDN import map -->
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+
+<body>
+  <!-- Overlay UI -->
+  <div class="overlay">
+    <div class="top-section">
+      <div class="title">Trái Tim Của Em</div>
+      <div class="subtitle">Gửi Đến Người Thương Yêu</div>
+    </div>
+
+    <div class="bottom-section">
+      <div class="love-quote" id="love-quote"></div>
+      <div class="hint">Chạm để rung động · Vuốt để xoay</div>
+    </div>
+  </div>
+
+  <!-- Floating petals container (CSS) -->
+  <div class="petals-container" id="petals"></div>
+
+  <!-- Music control -->
+  <div class="music-btn" id="music-btn" title="Bật/Tắt Nhạc">
+    <svg viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55C7.79 13 6 14.79 6 17s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" />
+    </svg>
+  </div>
+
+  <!-- Background Music -->
+  <audio id="bg-music" loop>
+    <source src="bg-music.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Three.js canvas is injected by script -->
+  <script type="module" src="script.js"></script>
+</body>
+
+</html>

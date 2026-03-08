@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🎄 Merry Christmas</title>
+    <meta name="description" content="Cây thông 3D tương tác — Thả đèn ước, bắn pháo hoa, đón Giáng Sinh">
+
+    <!-- GPU Optimization -->
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Great+Vibes&family=Outfit:wght@200;300;400&display=swap"
+        rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Three.js & MediaPipe -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/",
+                "@mediapipe/tasks-vision": "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.3/+esm"
+            }
+        }
+    </script>
+</head>
+
+<body>
+
+    <!-- Loader -->
+    <div id="loader">
+        <div class="loader-ring"></div>
+        <div class="loader-text">Loading Holiday Magic</div>
+    </div>
+
+    <!-- 3D Canvas -->
+    <div id="canvas-container"></div>
+
+    <!-- UI Overlay -->
+    <div id="ui-layer">
+        <h1>Merry Christmas</h1>
+        <div class="upload-wrapper">
+            <label class="upload-btn" id="upload-label">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+                    <path
+                        d="M21 19V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2zM8.5 13.5l2.5 3 3.5-4.5 4.5 6H5l3.5-4.5z" />
+                </svg>
+                Thêm Ảnh
+                <input type="file" id="file-input" multiple accept="image/*">
+            </label>
+            <div class="hint-text" id="hint-text"></div>
+        </div>
+    </div>
+
+    <!-- Webcam -->
+    <div id="webcam-wrapper">
+        <video id="webcam" autoplay playsinline></video>
+        <canvas id="webcam-preview" style="display:none;"></canvas>
+    </div>
+
+    <!-- Christmas Card -->
+    <div id="christmas-card">
+        <div class="card-inner">
+            <div class="card-ornament">🎄</div>
+            <div class="card-title">Merry Christmas</div>
+            <div class="card-divider"></div>
+            <div class="card-message">
+                Chúc bạn một mùa Giáng Sinh<br>
+                an lành, hạnh phúc và tràn đầy niềm vui<br><br>
+                <em>May your days be merry and bright ✨</em>
+            </div>
+            <button class="card-close" id="card-close-btn">Khám Phá</button>
+        </div>
+    </div>
+
+    <!-- Guide Overlay -->
+    <div id="guide-overlay">
+        <div class="guide-content">
+            <div class="guide-title">✦ Hướng Dẫn ✦</div>
+
+            <div class="guide-grid">
+                <div class="guide-card">
+                    <div class="guide-card-icon">👆</div>
+                    <div class="guide-card-title">Xoay & Zoom</div>
+                    <div class="guide-card-desc">Kéo xoay · Pinch / Scroll zoom</div>
+                </div>
+                <div class="guide-card">
+                    <div class="guide-card-icon">📸</div>
+                    <div class="guide-card-title">Ảnh Kỷ Niệm</div>
+                    <div class="guide-card-desc">Thêm ảnh quấn quanh cây</div>
+                </div>
+                <div class="guide-card">
+                    <div class="guide-card-icon">🎆</div>
+                    <div class="guide-card-title">Pháo Hoa</div>
+                    <div class="guide-card-desc">Double-click / giữ lâu</div>
+                </div>
+                <div class="guide-card">
+                    <div class="guide-card-icon">🏮</div>
+                    <div class="guide-card-title">Đèn Ước</div>
+                    <div class="guide-card-desc">Nhấn ☆ thả điều ước</div>
+                </div>
+                <div class="guide-card" id="guide-keyboard-section">
+                    <div class="guide-card-icon">⌨️</div>
+                    <div class="guide-card-title">Phím Tắt</div>
+                    <div class="guide-card-desc">H ẩn UI · R xoay · Space reset</div>
+                </div>
+                <div class="guide-card">
+                    <div class="guide-card-icon">✋</div>
+                    <div class="guide-card-title">Webcam</div>
+                    <div class="guide-card-desc">Nắm/xòe/chụm tay điều khiển</div>
+                </div>
+            </div>
+
+            <button class="guide-close-btn" id="guide-close-btn">Bắt Đầu ✦</button>
+        </div>
+    </div>
+
+    <!-- Guide Button -->
+    <div id="guide-btn" title="Hướng dẫn">?</div>
+
+    <!-- Wish Lantern Button -->
+    <div id="wish-btn" title="Thả đèn ước">☆</div>
+
+    <!-- Wish Modal -->
+    <div id="wish-modal">
+        <div class="wish-modal-inner">
+            <div class="wish-modal-icon">🏮</div>
+            <h3>Thả Đèn Ước</h3>
+            <input type="text" id="wish-input" placeholder="Nhập điều ước của bạn..." maxlength="60" autocomplete="off">
+            <button id="wish-send">Thả Lên Trời ✨</button>
+        </div>
+    </div>
+
+    <!-- Countdown -->
+    <div id="countdown-wrapper">
+        <div id="countdown-label">Đếm ngược đến Giáng Sinh</div>
+        <div id="countdown-timer">--:--:--:--</div>
+    </div>
+
+    <!-- Music Control -->
+    <div id="music-control" title="Bật/Tắt Nhạc">
+        <svg id="music-icon-play" viewBox="0 0 24 24">
+            <path d="M8 5v14l11-7z" />
+        </svg>
+        <svg id="music-icon-pause" viewBox="0 0 24 24" style="display:none;">
+            <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
+        </svg>
+    </div>
+
+    <!-- Background Music -->
+    <audio id="bg-music" loop>
+        <source src="https://assets.mixkit.co/music/preview/mixkit-a-very-happy-christmas-897.mp3" type="audio/mpeg">
+    </audio>
+
+    <script type="module" src="script.js"></script>
+</body>
+
+</html>
